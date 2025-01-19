@@ -1,4 +1,4 @@
-package ec.neoris.app.persona.servicio.messaging;
+package ec.neoris.app.transacciones.servicio.messaging;
 
 import ec.neoris.app.comun.app.handler.ClienteDesactivadoEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

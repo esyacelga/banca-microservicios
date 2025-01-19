@@ -49,6 +49,11 @@
         <dependencies>
             <dependency>
                 <groupId>app.neoris.ec</groupId>
+                <artifactId>transacciones-msj</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>app.neoris.ec</groupId>
                 <artifactId>persona-msj</artifactId>
                 <version>${project.version}</version>
             </dependency>

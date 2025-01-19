@@ -1,4 +1,4 @@
-package ec.neoris.app.persona.servicio.messaging.listener;
+package ec.neoris.app.transacciones.servicio.messaging.listener;
 
 import ec.neoris.app.comun.app.handler.ClienteDesactivadoEvent;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.input.IListenerAppService;
@@ -15,14 +15,11 @@ public class MessagingListener {
         this.listenerAppService = listenerAppService;
     }
 
-    @KafkaListener(topics = "cliente-desactivado-topic", groupId = "grupo-cuentas")
+    @KafkaListener(topics = "cliente-desactivado-topic", groupId = "grupo-cuentas", containerFactory = "kafkaListenerContainerFactory")
     public void procesarClienteDesactivado(ClienteDesactivadoEvent event) {
+        log.info("🔄 Procesando evento de desactivación de cliente: {}", event.getClienteId());
         listenerAppService.inactivarCuentas(event.getClienteId(), event.isEstado());
-        System.out.println("Cuentas desactivadas para cliente: " + event.getClienteId());
+        log.info("Cuentas desactivadas para cliente: " + event.getClienteId());
     }
 
-
-    public void inactivarCuentas(String clienteId, Boolean activarInactivar) {
-        listenerAppService.inactivarCuentas(clienteId, activarInactivar);
-    }
 }

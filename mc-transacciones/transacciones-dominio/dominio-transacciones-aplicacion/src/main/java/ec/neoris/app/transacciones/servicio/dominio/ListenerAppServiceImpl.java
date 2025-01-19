@@ -16,6 +16,7 @@ public class ListenerAppServiceImpl implements IListenerAppService {
 
     @Override
     public void inactivarCuentas(String clienteId, Boolean activarInactivar) {
+        log.info("🔄 Procesando evento EN ListenerAppServiceImpl  de desactivación de cliente: {}", clienteId);
         this.transaccionPersistCommandHandler.inactivarCuentasPorCliente(clienteId, activarInactivar);
     }
 }

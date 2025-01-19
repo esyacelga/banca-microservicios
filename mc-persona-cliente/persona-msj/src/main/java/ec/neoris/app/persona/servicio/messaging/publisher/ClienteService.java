@@ -19,14 +19,12 @@ public class ClienteService implements IClientePublisher {
     @Override
     public void desactivarCliente(String clienteId) {
         try {
-            log.info("🔄 Publicando evento de desactivación de cliente: {}", clienteId);
-
+            log.info("Publicando evento de desactivación de cliente: {}", clienteId);
             ClienteDesactivadoEvent event = new ClienteDesactivadoEvent(clienteId, false);
-
             kafkaTemplate.send("cliente-desactivado-topic", event)
                     .whenComplete((result, ex) -> {
                         if (ex == null) {
-                            log.info("✅ Evento enviado correctamente: {}", result.getProducerRecord().value());
+                            log.info("Evento enviado correctamente: {}", result.getProducerRecord().value());
                         } else {
                             log.error("Error al enviar evento a Kafka: {}", ex.getMessage());
                         }

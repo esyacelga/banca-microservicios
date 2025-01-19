@@ -127,5 +127,6 @@ docker rm $(docker ps -aq)
 docker rmi $(docker images -q)
 docker system prune -a --volumes -f
 docker volume rm $(docker volume ls -q)
+mvn clean install -T 1C
 
    

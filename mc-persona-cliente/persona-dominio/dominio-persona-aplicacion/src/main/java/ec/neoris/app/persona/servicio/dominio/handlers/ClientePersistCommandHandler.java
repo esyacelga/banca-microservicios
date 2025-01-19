@@ -47,7 +47,9 @@ public class ClientePersistCommandHandler {
         try {
             Optional<ClienteDto> data = clientePersonaRepository.buscarClientePorClienteId(cliente.getClienteId());
             data.ifPresent(clienteDto -> {
+                        log.info("Cliente con estado {" + clienteDto.getEstado() + "} *******************************");
                         if (!clienteDto.getEstado())
+                            log.info("Cliente desactivado, activando cliente.........");
                             clientePublisher.desactivarCliente(cliente.getClienteId());
                     }
             );
