@@ -1,0 +1,5 @@
+version: '3.7'
+
+networks:
+  red-neoris-app:
+    driver: bridge

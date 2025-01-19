@@ -47,7 +47,30 @@ services:
       - "8182:8182"
     networks:
       - red-neoris-app
-
+  zookeeper:
+    extends:
+      file: mc-infraestructura/zookeeper.yml
+      service: zookeeper
+  kafka-broker-1:
+    extends:
+      file: mc-infraestructura/kafka_cluster.yml
+      service: kafka-broker-1
+  kafka-broker-2:
+    extends:
+      file: mc-infraestructura/kafka_cluster.yml
+      service: kafka-broker-2
+  kafka-broker-3:
+    extends:
+      file: mc-infraestructura/kafka_cluster.yml
+      service: kafka-broker-3
+  kafka-manager:
+    extends:
+      file: mc-infraestructura/kafka_cluster.yml
+      service: kafka-manager
+  schema-registry:
+    extends:
+      file: mc-infraestructura/kafka_cluster.yml
+      service: schema-registry
 volumes:
   postgres-data:
 

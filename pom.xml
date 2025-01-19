@@ -12,6 +12,7 @@
         <module>modulo-comun</module>
         <module>mc-persona-cliente</module>
         <module>mc-transacciones</module>
+        <module>mc-infraestructura</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
