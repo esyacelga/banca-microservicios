@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>app.neoris.ec</groupId>
+            <artifactId>persona-msj</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>app.neoris.ec</groupId>
             <artifactId>persona-aplicacion</artifactId>
         </dependency>
         <dependency>

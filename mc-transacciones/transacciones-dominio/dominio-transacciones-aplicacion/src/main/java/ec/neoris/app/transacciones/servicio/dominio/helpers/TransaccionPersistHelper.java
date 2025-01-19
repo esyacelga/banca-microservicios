@@ -40,6 +40,16 @@ public class TransaccionPersistHelper {
     }
 
     @Transactional
+    public void inactivarCuentasPorCliente(String clienteId, Boolean estado) {
+        try {
+            cuentaRepository.inactivarCuentas(clienteId, estado);
+        }catch (Exception e){
+            log.error("Error al inactivar cuentas por cliente", e);
+        }
+
+    }
+
+    @Transactional
     public MovimientoRegistroDto actualizarMovimiento(RequestMovimientoActualizacion requestMovimiento) throws TransaccionDomainException {
         return transaccionesRepository.actualizarMovimiento(requestMovimiento);
     }

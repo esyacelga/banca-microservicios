@@ -1,25 +1,34 @@
 package ec.neoris.app.persona.servicio.dominio.handlers;
 
+import ec.neoris.app.persona.servicio.dominio.dto.ClienteDto;
 import ec.neoris.app.persona.servicio.dominio.dto.request.RequestCliente;
 import ec.neoris.app.persona.servicio.dominio.dto.response.ResponseCliente;
 import ec.neoris.app.persona.servicio.dominio.exception.PersonaConstrainViolationException;
 import ec.neoris.app.persona.servicio.dominio.exception.PersonaDomainException;
 import ec.neoris.app.persona.servicio.dominio.exception.PersonaNotFoundDomainException;
 import ec.neoris.app.persona.servicio.dominio.helpers.ClientePersistHelper;
+import ec.neoris.app.persona.servicio.dominio.puertos.output.IClientePersonaDomainRepository;
+import ec.neoris.app.persona.servicio.dominio.puertos.output.IClientePublisher;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @Component
 public class ClientePersistCommandHandler {
     private final ClientePersistHelper clientePersistHelper;
+    private final IClientePublisher clientePublisher;
+    private final IClientePersonaDomainRepository clientePersonaRepository;
 
-    public ClientePersistCommandHandler(ClientePersistHelper clientePersistHelper) {
+    public ClientePersistCommandHandler(ClientePersistHelper clientePersistHelper, IClientePublisher clientePublisher,
+                                        IClientePersonaDomainRepository clientePersonaRepository) {
         this.clientePersistHelper = clientePersistHelper;
+        this.clientePublisher = clientePublisher;
+        this.clientePersonaRepository = clientePersonaRepository;
     }
 
     public ResponseCliente insertarCliente(RequestCliente cliente) throws PersonaConstrainViolationException {
@@ -36,6 +45,12 @@ public class ClientePersistCommandHandler {
 
     public ResponseCliente updateCliente(UUID idCliente, RequestCliente cliente) throws PersonaDomainException {
         try {
+            Optional<ClienteDto> data = clientePersonaRepository.buscarClientePorClienteId(cliente.getClienteId());
+            data.ifPresent(clienteDto -> {
+                        if (!clienteDto.getEstado())
+                            clientePublisher.desactivarCliente(cliente.getClienteId());
+                    }
+            );
             return clientePersistHelper.updateCliente(idCliente, cliente)
                     .map(clienteDto -> ResponseCliente.builder()
                             .uuId(clienteDto.getUuId())

@@ -1,6 +1,7 @@
 package ec.neoris.app.transacciones.servicio.acceso.datos.repository;
 
 import ec.neoris.app.transacciones.servicio.acceso.datos.entity.Cuenta;
+import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.math.BigDecimal;
@@ -16,7 +17,7 @@ public interface ICuentaRepository {
 
     Cuenta actualizarCuenta(Cuenta cuenta) throws EntityNotFoundException;
 
-    void actualizarNuevoSaldo(String numeroCuenta, BigDecimal nuevoSaldo) throws EntityNotFoundException;
+    void inactivarCuentas(String idCliente, Boolean activaDesactiva) throws CuentaDomainException, EntityNotFoundException;
 
     Optional<Cuenta> obtenerCuentaPorNumero(String numeroCuenta);
 }

@@ -34,6 +34,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -46,6 +47,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>app.neoris.ec</groupId>
+                <artifactId>persona-msj</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>app.neoris.ec</groupId>
                 <artifactId>comun-acceso-datos</artifactId>

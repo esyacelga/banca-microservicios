@@ -15,8 +15,8 @@
         <module>persona-acceso-datos</module>
         <module>persona-contenedor</module>
         <module>persona-dominio</module>
-        <module>persona-mensaje</module>
         <module>persona-aplicacion</module>
+        <module>persona-msj</module>
     </modules>
 
 

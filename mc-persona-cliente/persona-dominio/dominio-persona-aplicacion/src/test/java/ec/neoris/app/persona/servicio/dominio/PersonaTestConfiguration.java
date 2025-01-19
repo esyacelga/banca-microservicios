@@ -1,6 +1,7 @@
 package ec.neoris.app.persona.servicio.dominio;
 
 import ec.neoris.app.persona.servicio.dominio.puertos.output.IClientePersonaDomainRepository;
+import ec.neoris.app.persona.servicio.dominio.puertos.output.IClientePublisher;
 import ec.neoris.app.persona.servicio.dominio.puertos.output.IPersonaDomainRepository;
 import org.mockito.Mockito;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,9 +13,15 @@ public class PersonaTestConfiguration {
     IClientePersonaDomainRepository clientePersonaRepository() {
         return Mockito.mock(IClientePersonaDomainRepository.class);
     }
+
     @Bean
     IPersonaDomainRepository personaRepositoryOut() {
         return Mockito.mock(IPersonaDomainRepository.class);
+    }
+
+    @Bean
+    IClientePublisher clientePublisher() {
+        return Mockito.mock(IClientePublisher.class);
     }
 
 }

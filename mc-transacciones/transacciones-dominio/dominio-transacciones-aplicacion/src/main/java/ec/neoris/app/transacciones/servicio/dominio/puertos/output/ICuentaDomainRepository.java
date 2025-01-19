@@ -17,8 +17,11 @@ public interface ICuentaDomainRepository {
 
     CuentaDto actualizarCuenta(CuentaDto cuentaDto) throws CuentaDomainException;
 
-    void actualizarNuevoSaldo(String numeroCuenta, BigDecimal nuevoSaldo);
+    void inactivarCuentas(String idCliente, Boolean activaDesactiva) throws CuentaDomainException;
+
 
     Optional<CuentaDto> obtenerCuentaPorNumero(String numeroCuenta) throws CuentaDomainException;
+
+
 
 }

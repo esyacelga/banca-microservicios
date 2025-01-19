@@ -64,6 +64,10 @@ public class TransaccionPersistCommandHandler {
         return transaccionPersistHelper.actualizarCuentaPersona(cuentaActualizacion);
     }
 
+    public void inactivarCuentasPorCliente(String clienteId, Boolean estado){
+        transaccionPersistHelper.inactivarCuentasPorCliente(clienteId, estado);
+    }
+
     public MovimientoRegistroDto actualizarMovimiento(RequestMovimientoActualizacion requestMovimiento) throws TransaccionDomainException {
         return transaccionPersistHelper.actualizarMovimiento(requestMovimiento);
     }

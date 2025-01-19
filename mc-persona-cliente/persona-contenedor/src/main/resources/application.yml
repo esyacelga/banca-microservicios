@@ -9,6 +9,15 @@ logging:
     ec.neoris.app: DEBUG
 
 spring:
+  kafka:
+    bootstrap-servers: kafka-broker-1:9092,kafka-broker-2:9092,kafka-broker-3:9092
+    consumer:
+      group-id: "grupo-clientes"
+      auto-offset-reset: earliest
+    producer:
+      acks: all
+    admin:
+      auto-create: true
   sql:
     init:
       mode: ALWAYS

@@ -68,15 +68,10 @@ public class CuentaAdapterRepositoryImpl implements ICuentaDomainRepository {
     }
 
     @Override
-    public void actualizarNuevoSaldo(String numeroCuenta, BigDecimal nuevoSaldo) throws CuentaDomainException {
-        try {
-            cuentaDomainRepository.actualizarNuevoSaldo(numeroCuenta, nuevoSaldo);
-        } catch (EntityNotFoundException exception) {
-            throw new CuentaDomainException("No se ha encontrado la cuenta " + numeroCuenta + " ", exception);
-        }
-
-
+    public void inactivarCuentas(String idCliente, Boolean activaDesactiva) throws CuentaDomainException, EntityNotFoundException {
+        cuentaDomainRepository.inactivarCuentas(idCliente, activaDesactiva);
     }
+
 
     @Override
     public Optional<CuentaDto> obtenerCuentaPorNumero(String numeroCuenta) throws CuentaDomainException {

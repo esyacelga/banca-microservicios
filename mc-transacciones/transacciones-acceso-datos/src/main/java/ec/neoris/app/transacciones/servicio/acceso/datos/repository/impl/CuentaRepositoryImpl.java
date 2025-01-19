@@ -2,15 +2,18 @@ package ec.neoris.app.transacciones.servicio.acceso.datos.repository.impl;
 
 import ec.neoris.app.transacciones.servicio.acceso.datos.entity.Cuenta;
 import ec.neoris.app.transacciones.servicio.acceso.datos.repository.ICuentaRepository;
+import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 public class CuentaRepositoryImpl implements ICuentaRepository {
     @PersistenceContext
@@ -34,22 +37,22 @@ public class CuentaRepositoryImpl implements ICuentaRepository {
     @Override
     public Optional<BigDecimal> obtenerSaldoActual(String numeroCuenta) throws EntityNotFoundException {
         String hql = """
-        SELECT 
-            CASE 
-                WHEN t.saldo_neto = 0 THEN t.saldo_inicial 
-                ELSE t.saldo_neto 
-            END 
-        FROM (
-            SELECT 
-                c.saldoInicial AS saldo_inicial,
-                COALESCE(SUM(CASE WHEN mov.tipoMovimiento = 'CREDITO' THEN mov.valor ELSE 0 END), 0) -
-                COALESCE(SUM(CASE WHEN mov.tipoMovimiento = 'DEBITO' THEN mov.valor ELSE 0 END), 0) AS saldo_neto
-            FROM Cuenta c
-            LEFT JOIN Movimientos mov ON c.id = mov.cuenta.id
-            WHERE c.numeroCuenta = :numeroCuenta
-            GROUP BY c.id, c.saldoInicial
-        ) AS t
-    """;
+                    SELECT 
+                        CASE 
+                            WHEN t.saldo_neto = 0 THEN t.saldo_inicial 
+                            ELSE t.saldo_neto 
+                        END 
+                    FROM (
+                        SELECT 
+                            c.saldoInicial AS saldo_inicial,
+                            COALESCE(SUM(CASE WHEN mov.tipoMovimiento = 'CREDITO' THEN mov.valor ELSE 0 END), 0) -
+                            COALESCE(SUM(CASE WHEN mov.tipoMovimiento = 'DEBITO' THEN mov.valor ELSE 0 END), 0) AS saldo_neto
+                        FROM Cuenta c
+                        LEFT JOIN Movimientos mov ON c.id = mov.cuenta.id
+                        WHERE c.numeroCuenta = :numeroCuenta
+                        GROUP BY c.id, c.saldoInicial
+                    ) AS t
+                """;
 
         try {
             return Optional.of(entityManager.createQuery(hql, BigDecimal.class)
@@ -59,7 +62,6 @@ public class CuentaRepositoryImpl implements ICuentaRepository {
             throw new EntityNotFoundException("No se encontró la cuenta con número " + numeroCuenta);
         }
     }
-
 
 
     @Override
@@ -80,16 +82,28 @@ public class CuentaRepositoryImpl implements ICuentaRepository {
     }
 
     @Override
-    public void actualizarNuevoSaldo(String numeroCuenta, BigDecimal nuevoSaldo) throws EntityNotFoundException {
-        String hql = "UPDATE Cuenta c SET c.saldoInicial = :nuevoSaldo WHERE c.numeroCuenta = :numeroCuenta";
-        int filasActualizadas = entityManager.createQuery(hql)
-                .setParameter("nuevoSaldo", nuevoSaldo)
-                .setParameter("numeroCuenta", numeroCuenta)
-                .executeUpdate();
-        if (filasActualizadas == 0) {
-            throw new EntityNotFoundException("No se encontró la cuenta con número " + numeroCuenta);
+    public void inactivarCuentas(String clienteID, Boolean activaDesactiva) throws CuentaDomainException, EntityNotFoundException {
+        try {
+            log.info("🔄 Inactivando cuentas para el cliente: {}", clienteID);
+            String hql = "UPDATE Cuenta c SET c.estado = :nuevoEstado WHERE c.cliente.clienteId = :clienteID";
+            int filasActualizadas = entityManager.createQuery(hql)
+                    .setParameter("nuevoEstado", activaDesactiva)  // false para inactivar
+                    .setParameter("clienteID", clienteID)
+                    .executeUpdate();
+
+            if (filasActualizadas == 0) {
+                log.warn("No se encontraron cuentas activas para el cliente con ID {}", clienteID);
+                throw new EntityNotFoundException("No se encontraron cuentas activas para el cliente con ID " + clienteID);
+            }
+
+            log.info("Se inactivaron {} cuentas para el cliente {}", filasActualizadas, clienteID);
+
+        } catch (Exception ex) {
+            log.error("Error al inactivar cuentas para el cliente {}: {}", clienteID, ex.getMessage(), ex);
+            throw new CuentaDomainException("Error al inactivar cuentas para el cliente " + clienteID, ex);
         }
     }
+
 
     @Override
     public Optional<Cuenta> obtenerCuentaPorNumero(String numeroCuenta) throws EntityNotFoundException {
