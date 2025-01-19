@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-neoris
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - red-neoris-app
+    restart: always
+
+  persona-contenedor:
+    image: persona-contenedor:v1
+    container_name: persona-contenedor
+    build:
+      context: ./mc-persona-cliente/persona-contenedor
+      dockerfile: Dockerfile
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    ports:
+      - "8181:8181"
+    networks:
+      - red-neoris-app
+
+  transacciones-contenedor:
+    image: transacciones-contenedor:v1
+    container_name: transacciones-contenedor
+    build:
+      context: ./mc-transacciones/transacciones-contenedor
+      dockerfile: Dockerfile
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    ports:
+      - "8182:8182"
+    networks:
+      - red-neoris-app
+
+volumes:
+  postgres-data:
+
+networks:
+  red-neoris-app:
+    driver: bridge
