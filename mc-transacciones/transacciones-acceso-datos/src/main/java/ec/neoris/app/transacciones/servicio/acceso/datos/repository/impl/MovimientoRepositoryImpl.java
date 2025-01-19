@@ -64,6 +64,7 @@ public class MovimientoRepositoryImpl implements IMovimientoRepository {
             cu.tipoCuenta, 
             cu.saldoInicial, 
             cu.estado, 
+            (case when mov.tipoMovimiento='DEBITO' THEN -mov.valor else mov.valor end),
             mov.saldo) 
         FROM Movimientos mov
         JOIN mov.cuenta cu 

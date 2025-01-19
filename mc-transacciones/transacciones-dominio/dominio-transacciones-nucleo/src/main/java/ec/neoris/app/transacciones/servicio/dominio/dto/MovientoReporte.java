@@ -17,5 +17,6 @@ public class MovientoReporte {
     private final String tipoCuenta;
     private final BigDecimal saldoInicial;
     private final Boolean estado;
+    private final BigDecimal movimiento;
     private final BigDecimal saldoDisponible;
 }
