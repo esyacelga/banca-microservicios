@@ -1,0 +1,30 @@
+server:
+  port: 8182
+  error:
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    ec.neoris.app: DEBUG
+
+spring:
+  mvc:
+    view:
+      prefix:
+      suffix:
+  web:
+    resources:
+      add-mappings: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://postgres-neoris:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
