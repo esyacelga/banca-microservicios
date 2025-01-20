@@ -1,6 +1,4 @@
----
-
-# **neoris App**
+# **Banca  App**
 
 Este proyecto es una aplicación Java con una arquitectura hexagonal, diseñada para la gestión de movimientos y cuentas. A continuación, se describen los pasos para la descarga, configuración y ejecución del proyecto, así como las pruebas disponibles.
 
@@ -47,6 +45,7 @@ docker-compose up --build
 Esto:
 - Crea y levanta los contenedores definidos en el archivo `docker-compose.yml`.
 - Construye las imágenes de los microservicios.
+- **Ejecuta automáticamente el script de la base de datos al iniciar la aplicación.**
 
 ### **4. Probar los Endpoints con Postman**
 El archivo `neoris endpoint.postman_collection.json` contiene una colección de pruebas para Postman.
@@ -100,6 +99,7 @@ Los endpoints están documentados en la colección de Postman, pero aquí tienes
 ## **Notas Adicionales**
 
 - **Base de Datos**: El proyecto utiliza PostgreSQL, configurado para ejecutarse dentro de un contenedor Docker.
+- **Ejecución Automática del Script**: Al iniciar la aplicación, el script de la base de datos se ejecuta automáticamente.
 - **Arquitectura**: El diseño hexagonal permite mantener un desacoplamiento entre la lógica de negocio y las dependencias externas.
 - **Pruebas de Integración**: Se pueden realizar con Postman utilizando el archivo mencionado o implementando más pruebas en `src/test`.
 
@@ -119,13 +119,12 @@ Los endpoints están documentados en la colección de Postman, pero aquí tienes
    docker-compose up --build
    ```
 
+3. Eliminar contenedores y volúmenes Docker:
+   ```bash
+   docker rm $(docker ps -aq)
+   docker rmi $(docker images -q)
+   docker system prune -a --volumes -f
+   docker volume rm $(docker volume ls -q)
+   mvn clean install -T 1C
+   ```
 
-
----
-docker rm $(docker ps -aq)
-docker rmi $(docker images -q)
-docker system prune -a --volumes -f
-docker volume rm $(docker volume ls -q)
-mvn clean install -T 1C
-
-   
