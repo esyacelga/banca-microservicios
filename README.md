@@ -110,7 +110,7 @@ Los endpoints están documentados en la colección de Postman, pero aquí tienes
 1. Descargar y compilar:
    ```bash
    git clone https://github.com/esyacelga/banca-microservicios.git
-   cd neoris-app
+   cd banca-microservicios
    mvn clean install
    ```
 
@@ -119,8 +119,7 @@ Los endpoints están documentados en la colección de Postman, pero aquí tienes
    docker-compose up --build
    ```
 
-3. Importar y ejecutar pruebas:
-    - Usar Postman con el archivo `neoris endpoint.postman_collection.json`.
+
 
 ---
 docker rm $(docker ps -aq)
