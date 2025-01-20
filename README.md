@@ -109,7 +109,7 @@ Los endpoints están documentados en la colección de Postman, pero aquí tienes
 
 1. Descargar y compilar:
    ```bash
-   git clone https://github.com/esyacelga/neoris-app.git
+   git clone https://github.com/esyacelga/banca-microservicios.git
    cd neoris-app
    mvn clean install
    ```
