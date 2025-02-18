@@ -1,8 +1,8 @@
 package ec.neoris.app.transacciones.servicio.acceso.datos.adaptador;
 
-import ec.neoris.app.excepcion.comun.dominio.valor.TipoMovimiento;
 import ec.neoris.app.transacciones.servicio.acceso.datos.entity.Cuenta;
 import ec.neoris.app.transacciones.servicio.acceso.datos.entity.Movimientos;
+import ec.neoris.app.transacciones.servicio.acceso.datos.mapper.TransaccionesDataAccesMapper;
 import ec.neoris.app.transacciones.servicio.acceso.datos.repository.ICuentaRepository;
 import ec.neoris.app.transacciones.servicio.acceso.datos.repository.IMovimientoRepository;
 import ec.neoris.app.transacciones.servicio.dominio.dto.MovientoReporte;
@@ -24,43 +24,29 @@ import java.util.UUID;
 public class TransaccionesAdapterRepositoryImpl implements ITransaccionesDomainRepository {
     private final IMovimientoRepository movimientoRepository;
     private final ICuentaRepository cuentaRepository;
+    private final TransaccionesDataAccesMapper transaccionesDataAccesMapper;
 
-    public TransaccionesAdapterRepositoryImpl(IMovimientoRepository movimientoRepository, ICuentaRepository cuentaRepository) {
+    public TransaccionesAdapterRepositoryImpl(IMovimientoRepository movimientoRepository,
+                                              ICuentaRepository cuentaRepository,
+                                              TransaccionesDataAccesMapper transaccionesDataAccesMapper) {
         this.movimientoRepository = movimientoRepository;
         this.cuentaRepository = cuentaRepository;
+        this.transaccionesDataAccesMapper = transaccionesDataAccesMapper;
     }
 
     @Override
     public MovimientoRegistroDto insertarMovimiento(RequestMovimiento requestMovimiento, BigDecimal nuevoSaldo) {
         Optional<Cuenta> cuentaOptional = cuentaRepository.obtenerCuentaPorNumero(requestMovimiento.getNumeroCuenta());
         Cuenta cuenta = cuentaOptional.orElseThrow(() -> new TransaccionDomainException("No se ha encontrado el numero de cuenta " + requestMovimiento.getNumeroCuenta() + " "));
-        Movimientos movimientos = movimientoRepository.insertarMovimiento(Movimientos.builder()
-                .tipoMovimiento(requestMovimiento.getTipoMovimiento())
-                .cuenta(cuenta)
-                .id(UUID.randomUUID())
-                .saldo(nuevoSaldo)
-                .fechaMovimiento(LocalDateTime.now())
-                .valor(requestMovimiento.getValor())
-                .build());
-        return MovimientoRegistroDto.builder()
-                .valor(movimientos.getValor())
-                .saldo(movimientos.getSaldo())
-                .uuidMovimiento(movimientos.getId())
-                .tipoMovimiento(TipoMovimiento.valueOf(movimientos.getTipoMovimiento()))
-                .build();
+        Movimientos movimientos = movimientoRepository.insertarMovimiento(transaccionesDataAccesMapper.transformarRequestToEntidad(requestMovimiento, cuenta, nuevoSaldo));
+        return transaccionesDataAccesMapper.transformarEntidadToDto(movimientos);
     }
 
     @Override
     public MovimientoRegistroDto buscarMovimientoPorId(UUID uuidMovimiento) throws TransaccionNotFoundDomainException {
         Optional<Movimientos> movimientosOptional = movimientoRepository.buscarMovimientoPorId(uuidMovimiento);
         Movimientos movimientos = movimientosOptional.orElseThrow(() -> new TransaccionNotFoundDomainException("No se ha encontrado movimiento con id: " + uuidMovimiento.toString() + " "));
-        return MovimientoRegistroDto.builder()
-                .tipoMovimiento(TipoMovimiento.valueOf(movimientos.getTipoMovimiento()))
-                .saldo(movimientos.getSaldo())
-                .uuidMovimiento(movimientos.getId())
-                .numeroCuenta(movimientos.getCuenta().getNumeroCuenta())
-                .valor(movimientos.getValor())
-                .build();
+        return transaccionesDataAccesMapper.transformarEntidadToDto(movimientos);
     }
 
     @Override
@@ -82,6 +68,6 @@ public class TransaccionesAdapterRepositoryImpl implements ITransaccionesDomainR
 
     @Override
     public List<MovientoReporte> obtenerMovimientosPorRango(LocalDateTime fechaInicial, LocalDateTime fechaFinal, String clienteId) throws TransaccionDomainException {
-        return movimientoRepository.obtenerMovimientosPorRango(fechaInicial, fechaFinal,clienteId);
+        return movimientoRepository.obtenerMovimientosPorRango(fechaInicial, fechaFinal, clienteId);
     }
 }
