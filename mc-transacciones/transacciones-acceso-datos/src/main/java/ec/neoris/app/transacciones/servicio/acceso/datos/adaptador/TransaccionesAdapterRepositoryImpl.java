@@ -9,6 +9,7 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.MovientoReporte;
 import ec.neoris.app.transacciones.servicio.dominio.dto.MovimientoRegistroDto;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimientoActualizacion;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionNotFoundDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ITransaccionesDomainRepository;
@@ -32,6 +33,14 @@ public class TransaccionesAdapterRepositoryImpl implements ITransaccionesDomainR
         this.movimientoRepository = movimientoRepository;
         this.cuentaRepository = cuentaRepository;
         this.transaccionesDataAccesMapper = transaccionesDataAccesMapper;
+    }
+
+    @Override
+    public MovimientoRegistroDto insertarMovimiento(MovimientoAggregateRoot aggregateRoot) {
+        Optional<Cuenta> cuentaOptional = cuentaRepository.obtenerCuentaPorNumero(aggregateRoot.getNumeroCuenta());
+        Cuenta cuenta = cuentaOptional.orElseThrow(() -> new TransaccionDomainException("No se ha encontrado el numero de cuenta " + aggregateRoot.getNumeroCuenta() + " "));
+        Movimientos movimientos = movimientoRepository.insertarMovimiento(transaccionesDataAccesMapper.movimientoAggregateRootToEntidad(aggregateRoot, cuenta));
+        return transaccionesDataAccesMapper.transformarEntidadToDto(movimientos);
     }
 
     @Override

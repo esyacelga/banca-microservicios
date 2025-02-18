@@ -4,6 +4,7 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.MovientoReporte;
 import ec.neoris.app.transacciones.servicio.dominio.dto.MovimientoRegistroDto;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimientoActualizacion;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionNotFoundDomainException;
 
@@ -13,6 +14,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ITransaccionesDomainRepository {
+
+    public MovimientoRegistroDto insertarMovimiento(MovimientoAggregateRoot aggregateRoot);
+
     public MovimientoRegistroDto insertarMovimiento(RequestMovimiento requestMovimiento, BigDecimal nuevoSaldo);
 
     public MovimientoRegistroDto buscarMovimientoPorId(UUID uuidMovimiento) throws TransaccionNotFoundDomainException;

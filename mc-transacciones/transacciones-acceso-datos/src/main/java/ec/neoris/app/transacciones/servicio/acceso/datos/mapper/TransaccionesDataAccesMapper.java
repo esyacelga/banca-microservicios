@@ -8,6 +8,7 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.CuentaDto;
 import ec.neoris.app.transacciones.servicio.dominio.dto.MovimientoRegistroDto;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -28,6 +29,17 @@ public class TransaccionesDataAccesMapper {
                 .uuidMovimiento(movimientos.getId())
                 .numeroCuenta(movimientos.getCuenta().getNumeroCuenta())
                 .valor(movimientos.getValor())
+                .build();
+    }
+
+    public Movimientos movimientoAggregateRootToEntidad(MovimientoAggregateRoot aggregateRoot, Cuenta cuenta) {
+        return Movimientos.builder()
+                .tipoMovimiento(aggregateRoot.getTipoMovimiento())
+                .cuenta(cuenta)
+                .id(UUID.randomUUID())
+                .saldo(aggregateRoot.getTotal())
+                .fechaMovimiento(LocalDateTime.now())
+                .valor(aggregateRoot.getValor())
                 .build();
     }
 

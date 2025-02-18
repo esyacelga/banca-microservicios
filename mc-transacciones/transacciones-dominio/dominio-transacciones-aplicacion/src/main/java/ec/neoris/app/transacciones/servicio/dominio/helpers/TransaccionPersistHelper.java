@@ -11,10 +11,12 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimient
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseCuenta;
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.ClienteNotFoundDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.factory.CuentaFactory;
+import ec.neoris.app.transacciones.servicio.dominio.factory.MovimientoFactory;
 import ec.neoris.app.transacciones.servicio.dominio.mapper.TransaccionDomainMapper;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ICuentaDomainRepository;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ITransaccionesDomainRepository;
@@ -58,25 +60,10 @@ public class TransaccionPersistHelper {
     @Transactional
     public ResponseMovimiento insertarMovimiento(RequestMovimiento requestMovimiento) throws TransaccionDomainException {
         BigDecimal saldoActual = cuentaRepository.obtenerSaldoActual(requestMovimiento.getNumeroCuenta());
-        TipoMovimiento tipoMovimiento;
-        try {
-            tipoMovimiento = TipoMovimiento.valueOf(requestMovimiento.getTipoMovimiento());
-        } catch (IllegalArgumentException ex) {
-            throw new TransaccionDomainException("Tipo de movimiento incorrecto, tipo de movimiento correcto es DEBITO o CREDITO ", ex);
-        }
-        if (requestMovimiento.getValor().compareTo(BigDecimal.ONE) < 0) {
-            throw new TransaccionDomainException("El valor no puede ser negativo o no puede ser 0");
-        }
-        if (tipoMovimiento == TipoMovimiento.DEBITO &&
-                saldoActual.compareTo(requestMovimiento.getValor()) < 0) {
-            throw new TransaccionDomainException("Saldo insuficiente");
-        }
-
-        BigDecimal nuevoSaldo = tipoMovimiento == TipoMovimiento.CREDITO
-                ? saldoActual.add(requestMovimiento.getValor())
-                : saldoActual.subtract(requestMovimiento.getValor());
-
-        MovimientoRegistroDto mov = transaccionesRepository.insertarMovimiento(requestMovimiento, nuevoSaldo);
+        MovimientoAggregateRoot aggregateRoot = MovimientoFactory.generarMovimiento(requestMovimiento, saldoActual);
+        aggregateRoot.validar();
+        aggregateRoot.inicializar();
+        MovimientoRegistroDto mov = transaccionesRepository.insertarMovimiento(aggregateRoot);
         return ResponseMovimiento.builder()
                 .uuidMovimiento(mov.getUuidMovimiento())
                 .mensaje("Movimiento Registrado exitosamente")

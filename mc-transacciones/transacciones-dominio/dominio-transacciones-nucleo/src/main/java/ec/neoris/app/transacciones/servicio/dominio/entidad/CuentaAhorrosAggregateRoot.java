@@ -6,8 +6,8 @@ public class CuentaAhorrosAggregateRoot extends CuentaAggregateRoot {
         super(builder);
     }
 
-    public static CuentaCorrienteAggregateRoot.Builder builder() {
-        return new CuentaCorrienteAggregateRoot.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static final class Builder extends CuentaAggregateRoot.Builder {
