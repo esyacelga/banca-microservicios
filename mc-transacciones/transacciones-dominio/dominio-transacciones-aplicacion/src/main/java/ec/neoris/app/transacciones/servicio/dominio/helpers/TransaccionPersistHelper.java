@@ -10,9 +10,11 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimient
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimientoActualizacion;
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseCuenta;
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseMovimiento;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.ClienteNotFoundDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.neoris.app.transacciones.servicio.dominio.factory.CuentaFactory;
 import ec.neoris.app.transacciones.servicio.dominio.mapper.TransaccionDomainMapper;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ICuentaDomainRepository;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ITransaccionesDomainRepository;
@@ -22,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -43,7 +44,7 @@ public class TransaccionPersistHelper {
     public void inactivarCuentasPorCliente(String clienteId, Boolean estado) {
         try {
             cuentaRepository.inactivarCuentas(clienteId, estado);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error al inactivar cuentas por cliente", e);
         }
 
@@ -101,25 +102,27 @@ public class TransaccionPersistHelper {
 
     @Transactional
     public ResponseCuenta insertarCuentaPersona(RequestCuenta requestCuenta) throws CuentaDomainException, ClienteNotFoundDomainException {
-        try {
-            TipoCuenta.valueOf(requestCuenta.getTipoCuenta());
-        } catch (IllegalArgumentException ex) {
-            throw new CuentaDomainException("El tipo de cuenta debe ser AHORROS, CORRIENTE", ex);
-        }
-        if (requestCuenta.getSaldo().compareTo(BigDecimal.ZERO) < 0)
-            throw new CuentaDomainException("El saldo no puede ser negativo ");
-        Optional<CuentaDto> cuentaDto = cuentaRepository.insertarCuentaPersona(transaccionDomainMapper.requestCuentaToCuentaDto(UUID.randomUUID(), requestCuenta));
+        CuentaAggregateRoot cuentaAhorros = CuentaFactory.crearCuenta(requestCuenta);
+        cuentaAhorros.validar();
+        cuentaAhorros.inicializar();
+        Optional<CuentaDto> cuentaDto = cuentaRepository.insertarCuentaPersona(cuentaAhorros);
         if (requestCuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0)
-            transaccionesRepository.insertarMovimiento(RequestMovimiento.builder()
-                    .numeroCuenta(requestCuenta.getNumeroCuenta().toString())
-                    .tipoMovimiento(TipoMovimiento.CREDITO.getValue())
-                    .valor(requestCuenta.getSaldo())
-                    .build(), cuentaDto.get().getSaldo());
+            registrarMovimiento(requestCuenta, cuentaDto.get().getSaldo());
 
         return ResponseCuenta.builder()
                 .uuidCuenta(cuentaDto.get().getUuidCuenta())
                 .mensaje("Cuenta registrada exitosamente")
                 .build();
+    }
+
+    @Transactional
+    public void registrarMovimiento(RequestCuenta requestCuenta, BigDecimal saldo) {
+        transaccionesRepository.insertarMovimiento(
+                RequestMovimiento.builder()
+                        .numeroCuenta(requestCuenta.getNumeroCuenta().toString())
+                        .tipoMovimiento(TipoMovimiento.CREDITO.getValue())
+                        .valor(requestCuenta.getSaldo())
+                        .build(), saldo);
     }
 
 

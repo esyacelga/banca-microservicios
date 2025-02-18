@@ -6,6 +6,7 @@ import ec.neoris.app.transacciones.servicio.acceso.datos.mapper.TransaccionesDat
 import ec.neoris.app.transacciones.servicio.acceso.datos.repository.ICuentaRepository;
 import ec.neoris.app.transacciones.servicio.acceso.datos.repository.IJPAClienteRepository;
 import ec.neoris.app.transacciones.servicio.dominio.dto.CuentaDto;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.ClienteNotFoundDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.exception.CuentaNotFoundDomainException;
@@ -38,6 +39,15 @@ public class CuentaAdapterRepositoryImpl implements ICuentaDomainRepository {
         Cliente cliente = clienteOptional.orElseThrow(() ->
                 new ClienteNotFoundDomainException("Cliente no encontrado con el ID ESPECIFICADO"));
         Cuenta cuenta = cuentaDomainRepository.insertarCuentaPersona(transaccionesDataAccesMapper.cuentaDtoToRequestCuenta(requestCuenta, UUID.randomUUID(), cliente));
+        return Optional.of(transaccionesDataAccesMapper.cuentaToCuentaDto(cuenta));
+    }
+
+    @Override
+    public Optional<CuentaDto> insertarCuentaPersona(CuentaAggregateRoot aggregateRoot) throws ClienteNotFoundDomainException {
+        Optional<Cliente> clienteOptional = jpaClienteRepository.findClienteByClienteId(aggregateRoot.getClienteId());
+        Cliente cliente = clienteOptional.orElseThrow(() ->
+                new ClienteNotFoundDomainException("Cliente no encontrado con el ID ESPECIFICADO"));
+        Cuenta cuenta = cuentaDomainRepository.insertarCuentaPersona(transaccionesDataAccesMapper.cuentaDtoToRequestCuenta(aggregateRoot, UUID.randomUUID(), cliente));
         return Optional.of(transaccionesDataAccesMapper.cuentaToCuentaDto(cuenta));
     }
 

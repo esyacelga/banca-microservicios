@@ -1,15 +1,21 @@
 package ec.neoris.app.transacciones.servicio.dominio.mapper;
 
 import ec.neoris.app.excepcion.comun.dominio.valor.TipoCuenta;
+import ec.neoris.app.excepcion.comun.dominio.valor.TipoMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.dto.CuentaDto;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestCuenta;
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestCuentaActualizacion;
+import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimiento;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Component
 public class TransaccionDomainMapper {
+
+
+
     public CuentaDto requestCuentaToCuentaDto(UUID uuid, RequestCuenta requestCuenta) {
         return CuentaDto.builder()
                 .uuidCuenta(uuid)

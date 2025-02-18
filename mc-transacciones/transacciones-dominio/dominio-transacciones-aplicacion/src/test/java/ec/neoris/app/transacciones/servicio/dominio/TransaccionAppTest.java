@@ -9,6 +9,7 @@ import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestCuentaAct
 import ec.neoris.app.transacciones.servicio.dominio.dto.request.RequestMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseCuenta;
 import ec.neoris.app.transacciones.servicio.dominio.dto.response.ResponseMovimiento;
+import ec.neoris.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.input.ITransaccionesAppService;
 import ec.neoris.app.transacciones.servicio.dominio.puertos.output.ICuentaDomainRepository;
@@ -48,9 +49,10 @@ public class TransaccionAppTest {
     @Test
     @DisplayName("Registrar cuenta")
     public void testGenerarCuenta() {
+
         when(cuentaRepository.obtenerSiguienteSecuencial())
                 .thenReturn(1);
-        when(cuentaRepository.insertarCuentaPersona(any(CuentaDto.class)))
+        when(cuentaRepository.insertarCuentaPersona(any(CuentaAggregateRoot.class)))
                 .thenReturn(Optional.of(CuentaDto.builder()
                         .saldo(new BigDecimal(1000))
                         .numeroCuenta("777")
