@@ -1,4 +1,4 @@
-package ec.neoris.app.persona.servicio.dominio;
+package ec.banca.app.persona.servicio.dominio;
 
 public interface IPersonaDomainService {
 }

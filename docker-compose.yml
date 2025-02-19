@@ -2,7 +2,7 @@ version: "3.9"
 services:
   postgres-db:
     image: postgres:15
-    container_name: postgres-neoris
+    container_name: postgres-banca
     ports:
       - "5432:5432"
     environment:
@@ -17,7 +17,7 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - red-neoris-app
+      - red-banca-app
     restart: always
 
   persona-contenedor:
@@ -32,7 +32,7 @@ services:
     ports:
       - "8181:8181"
     networks:
-      - red-neoris-app
+      - red-banca-app
 
   transacciones-contenedor:
     image: transacciones-contenedor:v1
@@ -46,7 +46,7 @@ services:
     ports:
       - "8182:8182"
     networks:
-      - red-neoris-app
+      - red-banca-app
   zookeeper:
     extends:
       file: mc-infraestructura/zookeeper.yml
@@ -75,5 +75,5 @@ volumes:
   postgres-data:
 
 networks:
-  red-neoris-app:
+  red-banca-app:
     driver: bridge

@@ -1,6 +1,6 @@
-package ec.neoris.app.persona.servicio.dominio.impl;
+package ec.banca.app.persona.servicio.dominio.impl;
 
-import ec.neoris.app.persona.servicio.dominio.IPersonaDomainService;
+import ec.banca.app.persona.servicio.dominio.IPersonaDomainService;
 
 public class PersonaDomainServiceImpl implements IPersonaDomainService {
 }

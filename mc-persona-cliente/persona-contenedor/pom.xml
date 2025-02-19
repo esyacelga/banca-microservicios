@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>app.neoris.ec</groupId>
+        <groupId>app.banca.ec</groupId>
         <artifactId>mc-persona-cliente</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -13,23 +13,23 @@
 
     <dependencies>
         <dependency>
-            <groupId>app.neoris.ec</groupId>
+            <groupId>app.banca.ec</groupId>
             <artifactId>persona-msj</artifactId>
         </dependency>
         <dependency>
-            <groupId>app.neoris.ec</groupId>
+            <groupId>app.banca.ec</groupId>
             <artifactId>persona-aplicacion</artifactId>
         </dependency>
         <dependency>
-            <groupId>app.neoris.ec</groupId>
+            <groupId>app.banca.ec</groupId>
             <artifactId>dominio-persona-aplicacion</artifactId>
         </dependency>
         <dependency>
-            <groupId>app.neoris.ec</groupId>
+            <groupId>app.banca.ec</groupId>
             <artifactId>dominio-pesona-nucleo</artifactId>
         </dependency>
         <dependency>
-            <groupId>app.neoris.ec</groupId>
+            <groupId>app.banca.ec</groupId>
             <artifactId>persona-acceso-datos</artifactId>
         </dependency>
         <dependency>
@@ -57,7 +57,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ec.neoris.app.persona.servicio.contendor.ClientePersonaServiceApplication</mainClass>
+                            <mainClass>ec.banca.app.persona.servicio.contendor.ClientePersonaServiceApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
