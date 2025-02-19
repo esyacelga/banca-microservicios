@@ -107,9 +107,6 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
         }
 
         public MovimientoAggregateRoot build() {
-            if (movimientoId == null) {
-                throw new TransaccionDomainException("El ID del movimiento no puede ser nulo.");
-            }
             return new MovimientoAggregateRoot(this);
         }
 
