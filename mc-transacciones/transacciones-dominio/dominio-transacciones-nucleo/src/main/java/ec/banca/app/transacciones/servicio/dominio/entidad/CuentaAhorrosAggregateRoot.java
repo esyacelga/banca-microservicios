@@ -16,4 +16,8 @@ public class CuentaAhorrosAggregateRoot extends CuentaAggregateRoot {
             return new CuentaAhorrosAggregateRoot(this);
         }
     }
+    @Override
+    public CuentaAhorrosAggregateRoot clone() {
+        return (CuentaAhorrosAggregateRoot) super.clone();
+    }
 }

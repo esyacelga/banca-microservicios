@@ -18,7 +18,6 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
     private IValidacionStrategy validacionStrategy;
 
 
-
     public String getNumeroCuenta() {
         return numeroCuenta;
     }
@@ -75,11 +74,13 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
         this.validacionStrategy = validacionStrategy;
     }
 
-    public void validarMovimiento(){
+    public void validarMovimiento() {
         if (validacionStrategy != null) {
             validacionStrategy.validarMovimiento(this);
         }
     }
+
+
     public static class Builder {
         private MovimientoId movimientoId;
         private String numeroCuenta;
@@ -123,4 +124,6 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
         }
 
     }
+
+
 }

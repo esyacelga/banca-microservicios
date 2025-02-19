@@ -8,7 +8,7 @@ import ec.banca.app.transacciones.servicio.dominio.exception.CuentaDomainExcepti
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class CuentaAggregateRoot extends AggregateRoot<CuentaId> {
+public class CuentaAggregateRoot extends AggregateRoot<CuentaId> implements Cloneable {
     private Integer numeroCuenta;
     private String clienteId;
     private String tipoCuenta;
@@ -62,6 +62,7 @@ public class CuentaAggregateRoot extends AggregateRoot<CuentaId> {
         setId(new CuentaId(UUID.randomUUID()));
     }
 
+
     public static class Builder {
         private CuentaId cuentaId;
         private Integer numeroCuenta;
@@ -102,6 +103,15 @@ public class CuentaAggregateRoot extends AggregateRoot<CuentaId> {
 
         public CuentaAggregateRoot build() {
             return new CuentaAggregateRoot(this);
+        }
+    }
+
+    @Override
+    public CuentaAggregateRoot clone() {
+        try {
+            return (CuentaAggregateRoot) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
     }
 }

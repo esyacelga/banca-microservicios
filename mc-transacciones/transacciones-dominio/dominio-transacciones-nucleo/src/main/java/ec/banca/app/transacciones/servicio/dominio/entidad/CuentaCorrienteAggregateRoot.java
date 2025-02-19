@@ -17,5 +17,10 @@ public class CuentaCorrienteAggregateRoot extends CuentaAggregateRoot {
             return new CuentaCorrienteAggregateRoot(this);
         }
     }
+
+    @Override
+    public CuentaAhorrosAggregateRoot clone() {
+        return (CuentaAhorrosAggregateRoot) super.clone();
+    }
 }
 

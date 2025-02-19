@@ -18,6 +18,7 @@ import ec.banca.app.transacciones.servicio.dominio.exception.TransaccionDomainEx
 import ec.banca.app.transacciones.servicio.dominio.factory.CuentaFactory;
 import ec.banca.app.transacciones.servicio.dominio.factory.MovimientoFactory;
 import ec.banca.app.transacciones.servicio.dominio.mapper.TransaccionDomainMapper;
+import ec.banca.app.transacciones.servicio.dominio.prototype.CuentaPrototypeRegistry;
 import ec.banca.app.transacciones.servicio.dominio.puertos.output.ICuentaDomainRepository;
 import ec.banca.app.transacciones.servicio.dominio.puertos.output.ITransaccionesDomainRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,6 @@ public class TransaccionPersistHelper {
     public ResponseMovimiento insertarMovimiento(RequestMovimiento requestMovimiento) throws TransaccionDomainException {
         BigDecimal saldoActual = cuentaRepository.obtenerSaldoActual(requestMovimiento.getNumeroCuenta());
         MovimientoAggregateRoot aggregateRoot = MovimientoFactory.generarMovimiento(requestMovimiento, saldoActual);
-        System.out.println("Tipo de instancia en tiempo de ejecución: " + aggregateRoot.getClass().getName());
         aggregateRoot.validar();
         aggregateRoot.inicializar();
         MovimientoRegistroDto mov = transaccionesRepository.insertarMovimiento(aggregateRoot);
