@@ -1,8 +1,8 @@
-package ec.neoris.app.transacciones.servicio.dominio.validators.impl;
+package ec.banca.app.transacciones.servicio.dominio.validators.impl;
 
-import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
-import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
-import ec.neoris.app.transacciones.servicio.dominio.validators.IValidacionStrategy;
+import ec.banca.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
+import ec.banca.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.banca.app.transacciones.servicio.dominio.validators.IValidacionStrategy;
 
 import java.math.BigDecimal;
 

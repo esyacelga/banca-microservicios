@@ -4,6 +4,7 @@ import ec.banca.app.excepcion.comun.dominio.entidad.AggregateRoot;
 import ec.banca.app.excepcion.comun.dominio.valor.MovimientoId;
 import ec.banca.app.excepcion.comun.dominio.valor.TipoMovimiento;
 import ec.banca.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.banca.app.transacciones.servicio.dominio.validators.IValidacionStrategy;
 
 import java.math.BigDecimal;
 import java.util.UUID;

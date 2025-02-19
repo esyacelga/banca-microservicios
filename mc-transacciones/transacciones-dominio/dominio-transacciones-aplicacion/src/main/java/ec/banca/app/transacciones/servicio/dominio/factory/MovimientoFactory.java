@@ -6,6 +6,7 @@ import ec.banca.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRo
 import ec.banca.app.transacciones.servicio.dominio.entidad.MovimientoCreditoAggregateRoot;
 import ec.banca.app.transacciones.servicio.dominio.entidad.MovimientoDebitoAggregateRoot;
 import ec.banca.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.banca.app.transacciones.servicio.dominio.validators.impl.ValidacionDebitoImpl;
 
 import java.math.BigDecimal;
 
