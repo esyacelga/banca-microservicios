@@ -6,7 +6,7 @@ server:
 
 logging:
   level:
-    ec.neoris.app: DEBUG
+    ec.banca.app: DEBUG
 
 spring:
   kafka:

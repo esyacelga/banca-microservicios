@@ -1,11 +1,11 @@
-package ec.neoris.app.persona.servicio.dominio;
+package ec.banca.app.persona.servicio.dominio;
 
-import ec.neoris.app.persona.servicio.dominio.dto.ClienteDto;
-import ec.neoris.app.persona.servicio.dominio.dto.request.RequestCliente;
-import ec.neoris.app.persona.servicio.dominio.dto.response.ResponseCliente;
-import ec.neoris.app.persona.servicio.dominio.puertos.input.IClienteAppService;
-import ec.neoris.app.persona.servicio.dominio.puertos.output.IClientePersonaDomainRepository;
-import ec.neoris.app.persona.servicio.dominio.puertos.output.IPersonaDomainRepository;
+import ec.banca.app.persona.servicio.dominio.dto.ClienteDto;
+import ec.banca.app.persona.servicio.dominio.dto.request.RequestCliente;
+import ec.banca.app.persona.servicio.dominio.dto.response.ResponseCliente;
+import ec.banca.app.persona.servicio.dominio.puertos.input.IClienteAppService;
+import ec.banca.app.persona.servicio.dominio.puertos.output.IClientePersonaDomainRepository;
+import ec.banca.app.persona.servicio.dominio.puertos.output.IPersonaDomainRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

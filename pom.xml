@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>app.neoris.ec</groupId>
-    <artifactId>neoris-app</artifactId>
+    <groupId>app.banca.ec</groupId>
+    <artifactId>banca-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
@@ -48,75 +48,75 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>transacciones-msj</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>persona-msj</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>comun-acceso-datos</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>comun-aplicacion</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>comun-dominio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>comun-infraestructura</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
 
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>persona-aplicacion</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>transacciones-aplicacion</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>dominio-persona-aplicacion</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>dominio-transacciones-aplicacion</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>dominio-pesona-nucleo</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>dominio-transacciones-nucleo</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>persona-acceso-datos</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>app.neoris.ec</groupId>
+                <groupId>app.banca.ec</groupId>
                 <artifactId>transacciones-acceso-datos</artifactId>
                 <version>${project.version}</version>
             </dependency>

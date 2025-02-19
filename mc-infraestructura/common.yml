@@ -1,5 +1,5 @@
 version: '3.7'
 
 networks:
-  red-neoris-app:
+  red-banca-app:
     driver: bridge

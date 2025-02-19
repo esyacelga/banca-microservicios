@@ -19,8 +19,8 @@ Este proyecto es una aplicación Java con una arquitectura hexagonal, diseñada 
 Descarga el código fuente desde el repositorio remoto:
 
 ```bash
-git clone https://github.com/esyacelga/neoris-app.git
-cd neoris-app
+git clone https://github.com/esyacelga/banca-app.git
+cd banca-app
 ```
 
 ### **2. Construir el Proyecto**
@@ -48,11 +48,11 @@ Esto:
 - **Ejecuta automáticamente el script de la base de datos al iniciar la aplicación.**
 
 ### **4. Probar los Endpoints con Postman**
-El archivo `neoris endpoint.postman_collection.json` contiene una colección de pruebas para Postman.
+El archivo `banca endpoint.postman_collection.json` contiene una colección de pruebas para Postman.
 
 1. Importa este archivo en Postman:
     - Ve a **File > Import** en Postman.
-    - Selecciona el archivo `neoris endpoint.postman_collection.json`.
+    - Selecciona el archivo `banca endpoint.postman_collection.json`.
 
 2. Ejecuta las solicitudes desde Postman:
     - Todos los endpoints están configurados y listos para ser probados.
