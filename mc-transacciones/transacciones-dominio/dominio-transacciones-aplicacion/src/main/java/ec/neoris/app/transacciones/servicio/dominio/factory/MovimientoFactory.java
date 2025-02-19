@@ -6,6 +6,7 @@ import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoAggregateR
 import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoCreditoAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.entidad.MovimientoDebitoAggregateRoot;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.neoris.app.transacciones.servicio.dominio.validators.impl.ValidacionDebitoImpl;
 
 import java.math.BigDecimal;
 
@@ -13,19 +14,23 @@ public class MovimientoFactory {
 
     public static MovimientoAggregateRoot generarMovimiento(RequestMovimiento requestMovimiento, BigDecimal saldoActual) {
         if (TipoMovimiento.CREDITO.getValue().equalsIgnoreCase(requestMovimiento.getTipoMovimiento())) {
-            return MovimientoCreditoAggregateRoot.builder()
+            MovimientoAggregateRoot mov = MovimientoCreditoAggregateRoot.builder()
                     .numeroCuenta(requestMovimiento.getNumeroCuenta())
                     .tipoMovimiento(requestMovimiento.getTipoMovimiento())
                     .valor(requestMovimiento.getValor())
                     .saldoActual(saldoActual)
                     .build();
+            mov.setValidacionStrategy(new ValidacionDebitoImpl());
+            return mov;
         } else if (TipoMovimiento.DEBITO.getValue().equalsIgnoreCase(requestMovimiento.getTipoMovimiento())) {
-            return MovimientoDebitoAggregateRoot.builder()
+            MovimientoAggregateRoot mov = MovimientoDebitoAggregateRoot.builder()
                     .numeroCuenta(requestMovimiento.getNumeroCuenta())
                     .tipoMovimiento(requestMovimiento.getTipoMovimiento())
                     .valor(requestMovimiento.getValor())
                     .saldoActual(saldoActual)
                     .build();
+            mov.setValidacionStrategy(new ValidacionDebitoImpl());
+            return mov;
         } else {
             throw new TransaccionDomainException("Tipo de movimiento no soportado: " + requestMovimiento.getTipoMovimiento());
         }

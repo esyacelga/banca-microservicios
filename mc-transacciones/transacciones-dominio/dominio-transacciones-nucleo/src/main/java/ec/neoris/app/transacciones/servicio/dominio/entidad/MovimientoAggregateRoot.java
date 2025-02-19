@@ -4,6 +4,7 @@ import ec.neoris.app.excepcion.comun.dominio.entidad.AggregateRoot;
 import ec.neoris.app.excepcion.comun.dominio.valor.MovimientoId;
 import ec.neoris.app.excepcion.comun.dominio.valor.TipoMovimiento;
 import ec.neoris.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
+import ec.neoris.app.transacciones.servicio.dominio.validators.IValidacionStrategy;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -14,6 +15,9 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
     private BigDecimal valor;
     private BigDecimal saldoActual;
     private BigDecimal total;
+    private IValidacionStrategy validacionStrategy;
+
+
 
     public String getNumeroCuenta() {
         return numeroCuenta;
@@ -60,7 +64,6 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
         }
     }
 
-
     public void inicializar() {
         this.total = tipoMovimiento.equalsIgnoreCase(TipoMovimiento.CREDITO.getValue())
                 ? saldoActual.add(getValor())
@@ -68,6 +71,15 @@ public class MovimientoAggregateRoot extends AggregateRoot<MovimientoId> {
         setId(new MovimientoId(UUID.randomUUID()));
     }
 
+    public void setValidacionStrategy(IValidacionStrategy validacionStrategy) {
+        this.validacionStrategy = validacionStrategy;
+    }
+
+    public void validarMovimiento(){
+        if (validacionStrategy != null) {
+            validacionStrategy.validarMovimiento(this);
+        }
+    }
     public static class Builder {
         private MovimientoId movimientoId;
         private String numeroCuenta;
