@@ -3,12 +3,13 @@ package ec.banca.app.transacciones.servicio.dominio.entidad;
 import ec.banca.app.excepcion.comun.dominio.entidad.AggregateRoot;
 import ec.banca.app.excepcion.comun.dominio.valor.CuentaId;
 import ec.banca.app.excepcion.comun.dominio.valor.TipoCuenta;
+import ec.banca.app.transacciones.servicio.dominio.decorator.ICuenta;
 import ec.banca.app.transacciones.servicio.dominio.exception.CuentaDomainException;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class CuentaAggregateRoot extends AggregateRoot<CuentaId> implements Cloneable {
+public class CuentaAggregateRoot extends AggregateRoot<CuentaId> implements Cloneable, ICuenta {
     private Integer numeroCuenta;
     private String clienteId;
     private String tipoCuenta;
@@ -63,6 +64,7 @@ public class CuentaAggregateRoot extends AggregateRoot<CuentaId> implements Clon
     }
 
 
+
     public static class Builder {
         private CuentaId cuentaId;
         private Integer numeroCuenta;
@@ -114,4 +116,15 @@ public class CuentaAggregateRoot extends AggregateRoot<CuentaId> implements Clon
             throw new AssertionError();
         }
     }
+
+    @Override
+    public String obtenerDescripcion() {
+        return "";
+    }
+
+    @Override
+    public BigDecimal obtenerSaldo() {
+        return getSaldo();
+    }
+
 }

@@ -15,7 +15,7 @@ public class MessagingListener {
         this.listenerAppService = listenerAppService;
     }
 
-    @KafkaListener(topics = "cliente-desactivado-topic", groupId = "grupo-cuentas", containerFactory = "kafkaListenerContainerFactory")
+    //@KafkaListener(topics = "cliente-desactivado-topic", groupId = "grupo-cuentas", containerFactory = "kafkaListenerContainerFactory")
     public void procesarClienteDesactivado(ClienteDesactivadoEvent event) {
         log.info("🔄 Procesando evento de desactivación de cliente: {}", event.getClienteId());
         listenerAppService.inactivarCuentas(event.getClienteId(), event.isEstado());

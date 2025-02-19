@@ -2,6 +2,8 @@ package ec.banca.app.transacciones.servicio.dominio.helpers;
 
 import ec.banca.app.excepcion.comun.dominio.valor.TipoCuenta;
 import ec.banca.app.excepcion.comun.dominio.valor.TipoMovimiento;
+import ec.banca.app.transacciones.servicio.dominio.decorator.ICuenta;
+import ec.banca.app.transacciones.servicio.dominio.decorator.impl.AlertasTransaccion;
 import ec.banca.app.transacciones.servicio.dominio.dto.CuentaDto;
 import ec.banca.app.transacciones.servicio.dominio.dto.MovimientoRegistroDto;
 import ec.banca.app.transacciones.servicio.dominio.dto.request.RequestCuenta;
