@@ -8,8 +8,8 @@ public class MovimientoDebitoAggregateRoot extends MovimientoAggregateRoot {
         super(builder);
     }
 
-    public static MovimientoDebitoAggregateRoot.Builder build() {
-        return new MovimientoDebitoAggregateRoot.Builder();
+    public static Builder builder() { // en lugar de build()
+        return new Builder();
     }
 
     @Override

@@ -6,13 +6,14 @@ public class MovimientoCreditoAggregateRoot extends MovimientoAggregateRoot {
         super(builder);
     }
 
-    public static Builder build() {
+    public static Builder builder() {
         return new Builder();
     }
 
     @Override
     public void validar() {
         super.validar();
+        System.out.println("***********");
     }
 
     public static final class Builder extends MovimientoAggregateRoot.Builder {

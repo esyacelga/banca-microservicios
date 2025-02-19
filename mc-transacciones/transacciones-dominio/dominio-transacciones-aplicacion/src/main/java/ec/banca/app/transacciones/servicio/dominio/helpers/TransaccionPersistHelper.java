@@ -61,6 +61,7 @@ public class TransaccionPersistHelper {
     public ResponseMovimiento insertarMovimiento(RequestMovimiento requestMovimiento) throws TransaccionDomainException {
         BigDecimal saldoActual = cuentaRepository.obtenerSaldoActual(requestMovimiento.getNumeroCuenta());
         MovimientoAggregateRoot aggregateRoot = MovimientoFactory.generarMovimiento(requestMovimiento, saldoActual);
+        System.out.println("Tipo de instancia en tiempo de ejecución: " + aggregateRoot.getClass().getName());
         aggregateRoot.validar();
         aggregateRoot.inicializar();
         MovimientoRegistroDto mov = transaccionesRepository.insertarMovimiento(aggregateRoot);

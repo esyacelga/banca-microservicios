@@ -16,7 +16,7 @@ import java.util.UUID;
 public class TransaccionDomainMapper {
 
     public MovimientoDebitoAggregateRoot requestMovimientoDebitoToAggregateRoot(RequestMovimiento requestMovimiento, BigDecimal saldoActual) {
-        return (MovimientoDebitoAggregateRoot) MovimientoDebitoAggregateRoot.build()
+        return (MovimientoDebitoAggregateRoot) MovimientoDebitoAggregateRoot.builder()
                 .tipoMovimiento(requestMovimiento.getTipoMovimiento())
                 .saldoActual(saldoActual)
                 .valor(requestMovimiento.getValor())
@@ -25,7 +25,7 @@ public class TransaccionDomainMapper {
     }
 
     public MovimientoCreditoAggregateRoot requestMovimientoCreditoToAggregateRoot(RequestMovimiento requestMovimiento, BigDecimal saldoActual) {
-        return (MovimientoCreditoAggregateRoot) MovimientoCreditoAggregateRoot.build()
+        return (MovimientoCreditoAggregateRoot) MovimientoCreditoAggregateRoot.builder()
                 .tipoMovimiento(requestMovimiento.getTipoMovimiento())
                 .saldoActual(saldoActual)
                 .valor(requestMovimiento.getValor())

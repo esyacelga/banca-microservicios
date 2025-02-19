@@ -10,6 +10,7 @@ import ec.banca.app.transacciones.servicio.dominio.dto.request.RequestMovimiento
 import ec.banca.app.transacciones.servicio.dominio.dto.response.ResponseCuenta;
 import ec.banca.app.transacciones.servicio.dominio.dto.response.ResponseMovimiento;
 import ec.banca.app.transacciones.servicio.dominio.entidad.CuentaAggregateRoot;
+import ec.banca.app.transacciones.servicio.dominio.entidad.MovimientoAggregateRoot;
 import ec.banca.app.transacciones.servicio.dominio.exception.TransaccionDomainException;
 import ec.banca.app.transacciones.servicio.dominio.puertos.input.ITransaccionesAppService;
 import ec.banca.app.transacciones.servicio.dominio.puertos.output.ICuentaDomainRepository;
@@ -107,7 +108,7 @@ public class TransaccionAppTest {
     public void registrarMovimiento() {
         when(cuentaRepository.obtenerSaldoActual(eq("001001")))
                 .thenReturn(new BigDecimal(10000));
-        when(transaccionesRepository.insertarMovimiento(any(RequestMovimiento.class), any(BigDecimal.class)))
+        when(transaccionesRepository.insertarMovimiento(any(MovimientoAggregateRoot.class)))
                 .thenReturn(MovimientoRegistroDto.builder()
                         .uuidMovimiento(UUID.randomUUID())
                         .valor(new BigDecimal(9000))
